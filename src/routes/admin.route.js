@@ -5,7 +5,8 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 import { requireRole } from "../middlewares/role.middleware.js";
 
 const router = express.Router();
-router.use(verifyToken,requireRole("admin"));
+
+//LET US Implement it later router.use(verifyToken,requireRole("admin"));
 
 router.post("/add-user",Admin.addUser);
 

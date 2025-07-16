@@ -42,10 +42,10 @@ export const getUser = async (req,res) => {
 export const addQuestion = async (req,res) => {
     try {
         const { question_text,options,correct_answer } = req.body;
-
+        console.log(question_text);
         const question = await Question.findOne({question_text});
         if(question){
-            return res.status(409).json({message:"Question ALready Exists"});
+            return res.status(409).json({message:"Question Already Exists"});
         }
 
         const newQuestion = new Question({
