@@ -13,7 +13,7 @@ router.get("/get-user",Admin.getUser);
 
 router.post("/add-questions",Admin.addQuestion);
 
-router.get("/get-questions",Quiz.getQuestions);
+router.get("/get-questions",Quiz.getAdminQuestions);
 
 router.post("/send-email",Admin.sendEmail);
 

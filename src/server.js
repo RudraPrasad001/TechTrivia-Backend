@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import adminRouter from "../src/routes/admin.route.js"
 import authRouter from "../src/routes/auth.route.js"
 import userRouter from "../src/routes/user.route.js"
+import { connectDB } from "./utils/db.config.js";
 
 dotenv.config();
 

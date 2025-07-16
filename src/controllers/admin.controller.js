@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs"
 import User from "../models/user.model.js";
-import { generateToken } from "../lib/utils.js";
 import Question from "../models/question.model.js";
 
 export const addUser = async (req,res) => {
@@ -44,7 +43,7 @@ export const addQuestion = async (req,res) => {
     try {
         const { question_text,options,correct_answer } = req.body;
 
-        const question = await Question.find({question_text});
+        const question = await Question.findOne({question_text});
         if(question){
             return res.status(409).json({message:"Question ALready Exists"});
         }
@@ -56,8 +55,9 @@ export const addQuestion = async (req,res) => {
         });
 
         await newQuestion.save()
+        return res.status(200).json({message:"Question Added successfully"});
     } catch (error) {
-        console.log("Error in Adding Question");
+        console.log(error);
         return res.status(500).json({message:"Internal Server Error"});
     }
 }
