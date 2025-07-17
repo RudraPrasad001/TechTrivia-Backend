@@ -6,9 +6,11 @@ import { requireRole } from "../middlewares/role.middleware.js";
 
 const router = express.Router();
 
-//LET US Implement it later router.use(verifyToken,requireRole("admin"));
+router.use(verifyToken,requireRole("admin"));
 
 router.post("/add-user",Admin.addUser);
+
+router.post("/add-admin",Admin.addAdmin)
 
 router.get("/get-user",Admin.getUser);
 

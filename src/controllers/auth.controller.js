@@ -3,13 +3,13 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 
 export const login = async (req,res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
     try {
-        const user = await User.findOne({username});
+        const user = await User.findOne({email});
 
         if(!user){
             return res.status(404).json({message:"User does not exist"});
@@ -27,7 +27,7 @@ export const login = async (req,res) => {
             user:{
                 _id:user._id,
                 name:user.name,
-                username:user.username,
+                email:user.email,
                 role:user.role
                 
             }

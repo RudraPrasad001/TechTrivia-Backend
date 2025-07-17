@@ -28,6 +28,33 @@ export const addUser = async (req,res) => {
         return res.status(500).json({message:"Internal server error"});
     }
 }
+export const addAdmin = async(req,res)=>{
+    const { name,username,email,password,role } = req.body;
+
+    try {
+        const user = await User.findOne({email});
+
+        if(user){
+        return res.status(409).json({message:"staff already exists"});
+        }
+        const hashedPassword = await bcrypt.hash(password,10);
+
+        const newUser = new User({
+            name,
+            email,
+            password:hashedPassword,
+            username,
+            role
+        });
+
+        await newUser.save();
+
+        return res.status(200).json({message:"User added successfully",user:newUser});
+    } catch (error) {
+        console.log("Error in adding user");
+        return res.status(500).json({message:"Internal server error"});
+    }
+}
 
 export const getUser = async (req,res) => {
     try {
