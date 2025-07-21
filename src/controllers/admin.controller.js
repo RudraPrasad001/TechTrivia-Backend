@@ -68,20 +68,16 @@ export const getUser = async (req,res) => {
 
 export const addQuestion = async (req,res) => {
     try {
-        const { question_text,options,correct_answer } = req.body;
-        console.log(question_text);
-        const question = await Question.findOne({question_text});
-        if(question){
-            return res.status(409).json({message:"Question Already Exists"});
-        }
+        const { question,options,correctOption} = req.body;
+        console.log(question);
 
         const newQuestion = new Question({
-            question_text,
+            question_text:question,
             options,
-            correct_answer
+            correct_answer:correctOption
         });
 
-        await newQuestion.save()
+        await newQuestion.save();
         return res.status(200).json({message:"Question Added successfully"});
     } catch (error) {
         console.log(error);
