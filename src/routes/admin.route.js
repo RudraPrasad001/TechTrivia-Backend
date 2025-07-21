@@ -4,9 +4,7 @@ import * as Quiz from "../controllers/quiz.controller.js"
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { requireRole } from "../middlewares/role.middleware.js";
 
-const router = express.Router();
-
-router.use(verifyToken,requireRole("admin"));
+const   router = express.Router();
 
 router.post("/add-user",Admin.addUser);
 
