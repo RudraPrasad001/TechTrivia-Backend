@@ -22,13 +22,18 @@ app.use("/api/admin",adminRouter);
 app.use("/api/user",userRouter);
 app.use("/api/timer",timerRouter);
 
-
-app.listen(3000, async ()=>{
-    try {
+const startServer = async () => {
+  try {
     await connectDB();
-    console.log(`Server is listening on port 3000`);
+    console.log("✅ Connected to MongoDB");
+
+    app.listen(3000, () => {
+      console.log("🚀Server is listening on port 3000");
+    });
   } catch (error) {
-    console.log("Failed to connect to DB",error);
+    console.error("❌Failed to connect to DB", error);
     process.exit(1);
   }
-})
+};
+
+startServer();

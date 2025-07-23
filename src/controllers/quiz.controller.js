@@ -1,6 +1,31 @@
 import Question from "../models/question.model.js";
 import Score from "../models/score.model.js";
 
+export const getUserQuestion = async (req, res) => {
+  const { userId, set } = req.query;
+
+  if (!userId || !set) {
+    return res.status(400).json({ message: "Missing userId or set" });
+  }
+
+  try {
+    const existingScore = await Score.findOne({ user_id: userId, set: Number(set) });
+
+    if (existingScore) {
+      return res.status(403).json({ message: "You have already submitted the quiz for this set" });
+    }
+
+    const questions = await Question.find({ set: Number(set) }).select("-correct_answer");
+
+    return res.status(200).json({ questions });
+
+  } catch (error) {
+    console.error("Error in getUserQuestion:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
 export const getAdminQuestions = async (req,res) => {
     try {
         const questions = await Question.find();
@@ -11,7 +36,7 @@ export const getAdminQuestions = async (req,res) => {
     }
 }
 
-export const getUserQuestion = async (req, res) => {
+/*export const getUserQuestion = async (req, res) => {
   const { userId } = req.query;
 
   try {
@@ -29,7 +54,7 @@ export const getUserQuestion = async (req, res) => {
     console.error("Error in getUserQuestion:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-};
+};*/
 
 export const submit = async (req,res) => {
 

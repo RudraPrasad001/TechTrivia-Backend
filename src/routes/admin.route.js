@@ -17,6 +17,7 @@ router.post("/add-questions",Admin.addQuestion);
 router.get("/get-questions",Quiz.getAdminQuestions);
 
 router.post("/send-email",Admin.sendEmail);
+router.get("/set-counts", Admin.getSet);
 
 
 export default router;
