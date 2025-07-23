@@ -5,6 +5,7 @@ import adminRouter from "../src/routes/admin.route.js"
 import authRouter from "../src/routes/auth.route.js"
 import userRouter from "../src/routes/user.route.js"
 import { connectDB } from "./utils/db.config.js";
+import timerRouter from "./routes/timing.route.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors({
 app.use("/api/auth",authRouter);
 app.use("/api/admin",adminRouter);
 app.use("/api/user",userRouter);
+app.use("/api/timer",timerRouter);
 
 
 app.listen(3000, async ()=>{
