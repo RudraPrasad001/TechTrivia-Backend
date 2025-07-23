@@ -66,24 +66,47 @@ export const getUser = async (req,res) => {
     }
 }
 
-export const addQuestion = async (req,res) => {
-    try {
-        const { question,options,correctOption} = req.body;
-        console.log(question);
+export const getSet = async (req, res) => {
+  try {
+    const counts = {};
 
-        const newQuestion = new Question({
-            question_text:question,
-            options,
-            correct_answer:correctOption
-        });
-
-        await newQuestion.save();
-        return res.status(200).json({message:"Question Added successfully"});
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({message:"Internal Server Error"});
+    for (let i = 1; i <= 4; i++) {
+      const count = await Question.countDocuments({ set: i });
+      counts[i] = count;
     }
-}
+
+    return res.status(200).json(counts); 
+  } catch (error) {
+    console.log("Error in getSet:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
+export const addQuestion = async (req, res) => {
+  try {
+    const { set, question, options, correct } = req.body;
+    console.log("Incoming request:", req.body);
+
+    if (!correct) {
+      return res.status(400).json({ message: "Missing correct in payload" });
+    }
+
+    const newQuestion = new Question({
+      set,
+      question_text: question,
+      options,
+      correct_answer: correct
+    });
+
+    await newQuestion.save();
+    return res.status(200).json({ message: "Question Added successfully" });
+  } catch (error) {
+    console.log("Error in addQuestion:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 export const sendEmail = async (req,res) => {
     
