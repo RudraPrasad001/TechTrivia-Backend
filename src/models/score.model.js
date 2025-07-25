@@ -2,20 +2,21 @@ import mongoose from "mongoose";
 
 const scoreSchema = mongoose.Schema({
     user_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User",
+        type:String,
+     
         required:true
     },
-    quiz_score:{
+    final_score:{
         type:Number,
         required:true,
-        min:0
+        min:0,
     },
     time_taken:{
         type:Number,
-        require:true,
-        min:0
+        required:true,
     }
+
+   
 },{ timestamps:true });
 
 const Score = mongoose.model("Score", scoreSchema);

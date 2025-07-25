@@ -1,6 +1,7 @@
 import express from "express";
 import * as Admin from "../controllers/admin.controller.js"
 import * as Quiz from "../controllers/quiz.controller.js"
+import * as Timer from "../controllers/timing.controller.js"
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { requireRole } from "../middlewares/role.middleware.js";
 
@@ -18,6 +19,9 @@ router.get("/get-questions",Quiz.getAdminQuestions);
 
 router.post("/send-email",Admin.sendEmail);
 router.get("/set-counts", Admin.getSet);
+
+router.post("/calculate", Timer.calculateScore); 
+router.post("/save", Timer.saveScore);      
 
 
 export default router;
