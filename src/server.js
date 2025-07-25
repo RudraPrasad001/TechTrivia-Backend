@@ -22,6 +22,7 @@ app.use("/api/admin",adminRouter);
 app.use("/api/user",userRouter);
 app.use("/api/timer",timerRouter);
 
+
 const startServer = async () => {
   try {
     await connectDB();
