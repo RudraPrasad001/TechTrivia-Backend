@@ -1,5 +1,6 @@
 import Question from "../models/question.model.js";
 import Score from "../models/score.model.js";
+import User from "../models/user.model.js";
 
 export const getUserQuestion = async (req, res) => {
   const { userId, set } = req.query;
@@ -26,15 +27,34 @@ export const getUserQuestion = async (req, res) => {
 };
 
 
-export const getAdminQuestions = async (req,res) => {
-    try {
-        const questions = await Question.find();
-          return res.status(200).json({questions});
-    } catch (error) {
-        console.log("Error in loading",error);
-        return res.status(500).json({message:"Internal Server Error"});
+export const getAdminQuestions = async (req, res) => {
+  try {
+    const { set } = req.query;
+    const setNum = parseInt(set);
+
+    if (![1, 2, 3, 4].includes(setNum)) {
+      return res.status(400).json({ message: "Invalid set number (1–4 only)" });
     }
-}
+
+    const questions = await Question.find({ set: setNum });
+
+    if (!questions.length) {
+      return res.status(404).json({ message: "No questions found for this set" });
+    }
+
+    res.status(200).json({ questions });
+  } catch (err) {
+    console.error("Error fetching questions:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+export const getRandomSet = (req, res) => {
+  const randomSet = Math.floor(Math.random() * 4) + 1; 
+  res.status(200).json({ set: randomSet });
+};
+
+
+
 
 /*export const getUserQuestion = async (req, res) => {
   const { userId } = req.query;
