@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema({
         required:true,
         minlength:6
     },
+    assignedSet: {
+    type: Number,
+    default: null,
+  },
    
 },{ timestamps:true });
 

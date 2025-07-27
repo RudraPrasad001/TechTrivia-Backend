@@ -16,6 +16,7 @@ router.get("/get-user",Admin.getUser);
 router.post("/add-questions",Admin.addQuestion);
 
 router.get("/get-questions",Quiz.getAdminQuestions);
+router.get("/random-set",Quiz.getRandomSet);
 
 router.post("/send-email",Admin.sendEmail);
 router.get("/set-counts", Admin.getSet);
