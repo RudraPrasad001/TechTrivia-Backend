@@ -3,41 +3,36 @@ import Timing from "../models/timing.model.js";
 import Score from "../models/score.model.js";
 const IDEAL_TIME = 30; 
 
-export const calculateScore= async (req, res) => {
+export const calculateScore = async (req, res) => {
   try {
-    const { user_id, start_time, end_time,score } = req.body;
+    const { user_id, start_time, end_time, score } = req.body;
 
     if (!user_id || score == null || !start_time || !end_time) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const timeTaken = (new Date(end_time) - new Date(start_time)) / 1000; 
+    const timeTaken = (new Date(end_time) - new Date(start_time)) / 1000;
 
-    let finalScore = score;
+    const maxTime = 600;
 
-    if (timeTaken < IDEAL_TIME) {
-      const bonus = (IDEAL_TIME - timeTaken) / 5;
-      finalScore += bonus;
-    } else {
-      const penalty = (timeTaken - IDEAL_TIME) / 10;
-      finalScore -= penalty;
-    }
+    const timeBonus = ((maxTime - timeTaken) / maxTime) * 10;
 
-    finalScore = Math.max(0, Number(finalScore.toFixed(2))); 
+    let finalScore = score + timeBonus;
+
+    finalScore = Number(finalScore.toFixed(3));
 
     const newScore = new Score({
       user_id,
       final_score: finalScore,
-      time_taken:timeTaken
-
+      time_taken: timeTaken,
     });
 
     await newScore.save();
 
     res.status(200).json({
-      message: "Final score saved with time adjustment",
+      message: "Final score saved with time-based bonus",
       timeTaken,
-      finalScore
+      finalScore,
     });
   } catch (error) {
     console.error("Score adjustment failed:", error.message);
