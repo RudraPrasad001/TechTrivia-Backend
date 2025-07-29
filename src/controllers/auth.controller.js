@@ -7,7 +7,7 @@ export const login = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  if (password !== "12345") {
+  if (password !== "celestiustechtrivia") {
     return res.status(401).json({ message: "Invalid password" });
   }
 
